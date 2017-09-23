@@ -1,0 +1,156 @@
+<div class="form-inline">
+    <label class="sr-only" for="inlineFormInput">Name</label>
+    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" [(ngModel)]="searchCondition.title"
+           id="inlineFormInput" placeholder="标题">
+
+    <div class="form-group mb-2 mr-sm-2 mb-sm-0">
+        <select [(ngModel)]="searchCondition.class_id" class="form-control">
+            <option value="">--全部--</option>
+            <option *ngFor="let syClass of surveyClasses" value="{{syClass.id}}">
+                {{syClass.class_name}}
+            </option>
+        </select>
+    </div>
+
+    <div class="form-group mb-2 mr-sm-2 mb-sm-0">
+        <select [(ngModel)]="searchCondition.status" class="form-control">
+            <option value="">--全部--</option>
+            <option value="1">启用</option>
+            <option value="0">禁用</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary" (click)="search();">查询
+    </button>&nbsp;
+    <button type="submit" class="btn btn-primary" (click)="onNew(); staticModal.show()">新增调查
+    </button>
+
+</div>
+<br/>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>标题</th>
+            <th>描述</th>
+            <th>题目数量</th>
+            <th>估计时长</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let survey of surveys">
+            <td>{{survey.id}}</td>
+            <td>{{survey.title}}</td>
+            <td>{{survey.description == null? "" : survey.description.substr(0,10)}}...</td>
+            <td>{{survey.questionCnt}}</td>
+            <td>{{survey.estimateMinutes}}</td>
+            <td>
+                <a routerLink="/survey/{{survey.id}}/info">
+                    <i class="fa fa-edit"></i>基础信息
+                </a>&nbsp;
+                <a routerLink="/survey/{{survey.id}}/questions">
+                    <i class="fa fa-list-ol"></i>编辑题目
+                </a>&nbsp;
+                <a routerLink="/survey/{{survey.id}}/answers">
+                    <i class="fa fa-cogs"></i>其它配置
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <pagination [totalItems]="pageData.totalCount" [(ngModel)]="pageData.pageNO" [maxSize]="9"
+                class="justify-content-start"
+                previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
+                (pageChanged)="pageChanged($event)"
+                [boundaryLinks]="true" [rotate]="true" (numPages)="pageData.pageNO = $event"></pagination>
+</div>
+
+
+<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'true'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #orderForm="ngForm">
+                    <input type="hidden" class="form-control form-control-sm" name="id"
+                           [(ngModel)]="selectedSurvey.id"
+                           placeholder="">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label col-form-label-sm">标题:</label>
+
+                                <input type="email" class="form-control form-control-sm" name="title"
+                                       [(ngModel)]="selectedSurvey.title" required maxlength="10"
+                                       placeholder="" #title="ngModel">
+                                <div [hidden]="title.valid || title.pristine" class="form-control-sm" style="color:red">
+                                    标题必填
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label class="col-form-label col-form-label-sm">题目数量:</label>
+                                <input type="email" class="form-control form-control-sm" name="question_cnt"
+                                       [(ngModel)]="selectedSurvey.question_cnt"
+                                       placeholder="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="col-form-label col-form-label-sm">预计完成时长(分钟):</label>
+                                <input type="text" class="form-control form-control-sm" name="order_number"
+                                       [(ngModel)]="selectedSurvey.estimate_minutes" placeholder="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label class="col-form-label col-form-label-sm">问卷价格(元):</label>
+                                <input type="email" class="form-control form-control-sm" name="price"
+                                       [(ngModel)]="selectedSurvey.price"
+                                       placeholder="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="col-form-label col-form-label-sm">问卷类别:</label>
+                                <select [(ngModel)]="selectedSurvey.class_id" name="class_id"
+                                        class="form-control form-control-sm">
+                                    <option value="">--无--</option>
+                                    <option *ngFor="let syClass of surveyClasses" value="{{syClass.id}}">
+                                        {{syClass.class_name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-form-label col-form-label-sm">是否启用:</label>
+                                <select [(ngModel)]="selectedSurvey.status" name="status"
+                                        class="form-control form-control-sm">
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label col-form-label-sm">问卷详细描述／介绍:</label>
+                            <textarea rows="7" class="form-control form-control-sm" name="description"
+                                      [(ngModel)]="selectedSurvey.description"
+                                      placeholder="">
+                            </textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" (click)="onSubmit(staticModal)"
+                                [disabled]="!orderForm.form.valid">提交
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
