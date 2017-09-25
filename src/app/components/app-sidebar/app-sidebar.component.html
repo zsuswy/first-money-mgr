@@ -5,7 +5,21 @@
         <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"><i
-                        class="icon-speedometer"></i> Dashboard <span class="badge badge-info">NEW</span></a>
+                        class="icon-speedometer"></i> 首页 <span class="badge badge-info">NEW</span></a>
+            </li>
+            <li class="nav-item nav-dropdown" routerLinkActive="open" appNavDropdown>
+                <a class="nav-link nav-dropdown-toggle" href="#" appNavDropdownToggle><i class="icon-star"></i>
+                    测评管理</a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['/survey/list']"><i
+                                class="icon-star"></i> 测评列表 <span class="badge badge-secondary">4.7</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLinkActive="active" [routerLink]="['/icons/simple-line-icons']"><i
+                                class="icon-star"></i> Simple Line Icons</a>
+                    </li>
+                </ul>
             </li>
             <li class="divider"></li>
             <li class="nav-title">

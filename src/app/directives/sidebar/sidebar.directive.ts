@@ -83,10 +83,3 @@ export class SidebarOffCanvasCloseDirective {
     }
   }
 }
-
-export const SIDEBAR_TOGGLE_DIRECTIVES = [
-    SidebarToggleDirective,
-    SidebarMinimizeDirective,
-    SidebarOffCanvasCloseDirective,
-    MobileSidebarToggleDirective
-];

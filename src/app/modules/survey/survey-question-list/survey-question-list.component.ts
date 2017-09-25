@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {SurveyService} from './survey.service';
+import {SurveyService} from '../survey.service';
 import {SlimLoadingBarService} from 'ng2-slim-loading-bar';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-import {SurveyQuestion} from '../../model/SurveyQuestion';
-import {Survey} from '../../model/Survey';
-import {Page} from '../../model/common/Page';
-import {SurveyQuestionOption} from '../../model/SurveyQuestionOption';
-import {ListSearchVo} from '../../model/common/ListSearchVo';
+import {SurveyQuestion} from '../../../model/SurveyQuestion';
+import {Survey} from '../../../model/Survey';
+import {Page} from '../../../model/common/Page';
+import {SurveyQuestionOption} from '../../../model/SurveyQuestionOption';
+import {ListSearchVo} from '../../../model/common/ListSearchVo';
 
 /**
  * Created by sunwuyang on 17/7/28.

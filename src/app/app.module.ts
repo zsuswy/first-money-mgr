@@ -5,53 +5,33 @@ import {AppComponent} from './app.component';
 import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
 
 // Import containers
-import {FullLayout, SimpleLayout} from './containers';
-
+import {FullLayout} from './containers/full-layout/full-layout.component';
+import {SimpleLayout} from './containers/simple-layout/simple-layout.component';
 // Import components
-import {
-    AppAside,
-    AppBreadcrumbs,
-    AppFooter,
-    AppHeader,
-    AppSidebar,
-    AppSidebarFooter,
-    AppSidebarForm,
-    AppSidebarHeader
-} from './components';
-
-// Import directives
-import {
-    AsideToggleDirective,
-    NAV_DROPDOWN_DIRECTIVES,
-    SIDEBAR_TOGGLE_DIRECTIVES
-} from './directives';
+import {AppAside} from './components/app-aside/app-aside.component';
+import {AppBreadcrumbs} from './components/app-breadcrumbs/app-breadcrumbs.component';
+import {AppFooter} from './components/app-footer/app-footer.component';
+import {AppHeader} from './components/app-header/app-header.component';
+import {AppSidebar} from './components/app-sidebar/app-sidebar.component';
+import {AppSidebarFooter} from './components/app-sidebar-footer/app-sidebar-footer.component';
+import {AppSidebarHeader} from './components/app-sidebar-header/app-sidebar-header.component';
+import {AppSidebarForm} from './components/app-sidebar-form/app-sidebar-form.component';
 
 // Import routing module
 import {AppRoutingModule} from './app.routing';
-
 // Import 3rd party components
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {TabsModule} from 'ngx-bootstrap/tabs';
 import {ChartsModule} from 'ng2-charts/ng2-charts';
 
-const APP_CONTAINERS = [FullLayout, SimpleLayout];
-
-const APP_COMPONENTS = [
-    AppAside,
-    AppBreadcrumbs,
-    AppFooter,
-    AppHeader,
-    AppSidebar,
-    AppSidebarFooter,
-    AppSidebarForm,
-    AppSidebarHeader
-];
-
-const APP_DIRECTIVES = [
-    AsideToggleDirective,
-    NAV_DROPDOWN_DIRECTIVES,
-    SIDEBAR_TOGGLE_DIRECTIVES
-];
+import {
+    SidebarToggleDirective,
+    SidebarMinimizeDirective,
+    SidebarOffCanvasCloseDirective,
+    MobileSidebarToggleDirective
+} from './directives/sidebar/sidebar.directive';
+import {NavDropdownDirective, NavDropdownToggleDirective} from './directives/nav-dropdown/nav-dropdown.directive';
+import {AsideToggleDirective} from './directives/aside/aside.directive';
 
 @NgModule({
     imports: [
@@ -64,9 +44,23 @@ const APP_DIRECTIVES = [
     ],
     declarations: [
         AppComponent,
-        ...APP_CONTAINERS,
-        ...APP_COMPONENTS,
-        ...APP_DIRECTIVES
+        FullLayout,
+        SimpleLayout,
+        AppAside,
+        AppBreadcrumbs,
+        AppFooter,
+        AppHeader,
+        AppSidebar,
+        AppSidebarFooter,
+        AppSidebarForm,
+        AppSidebarHeader,
+        AsideToggleDirective,
+        NavDropdownDirective,
+        NavDropdownToggleDirective,
+        SidebarToggleDirective,
+        SidebarMinimizeDirective,
+        SidebarOffCanvasCloseDirective,
+        MobileSidebarToggleDirective
     ],
     providers: [{
         provide: LocationStrategy,

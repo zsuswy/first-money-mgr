@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {SurveyService} from './survey.service';
+import {SurveyService} from '../survey.service';
 import {SlimLoadingBarService} from 'ng2-slim-loading-bar';
-import {Page} from '../../model/common/Page';
-import {Survey} from '../../model/Survey';
-import {SurveyClass} from '../../model/SurveyClass';
+import {Page} from '../../../model/common/Page';
+import {Survey} from '../../../model/Survey';
+import {SurveyClass} from '../../../model/SurveyClass';
 
 @Component({
     selector: 'app-surveylist',

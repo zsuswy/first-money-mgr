@@ -47,7 +47,7 @@
             <td>{{survey.questionCnt}}</td>
             <td>{{survey.estimateMinutes}}</td>
             <td>
-                <a routerLink="/survey/{{survey.id}}/info">
+                <a (click)="onEdit(staticModal,survey)">
                     <i class="fa fa-edit"></i>基础信息
                 </a>&nbsp;
                 <a routerLink="/survey/{{survey.id}}/questions">
@@ -66,7 +66,6 @@
                 (pageChanged)="pageChanged($event)"
                 [boundaryLinks]="true" [rotate]="true" (numPages)="pageData.pageNO = $event"></pagination>
 </div>
-
 
 <div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'true'}"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
