@@ -8,13 +8,7 @@ export class SurveyQuestion {
                 public surveyId?: string,
                 public seq?: number,
                 public title?: string,
+                public type?: string,
                 public questionContent?: string) {
-    }
-
-    public get options(): Array<SurveyQuestionOption> {
-        return null;
-    }
-
-    public set options(list: Array<SurveyQuestionOption>) {
     }
 }

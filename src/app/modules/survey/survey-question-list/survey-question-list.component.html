@@ -1,10 +1,9 @@
 <div class="form-inline">
     <label class="sr-only" for="inlineFormInput">Name</label>
-    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" [(ngModel)]="searchCondition.title"
-           id="inlineFormInput" placeholder="标题">
-    <button type="submit" class="btn btn-primary" (click)="search();">查询
+    <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="标题">
+    <button class="btn btn-primary" (click)="search();">查询
     </button>&nbsp;
-    <button type="submit" class="btn btn-primary" (click)="onNew(); staticModal.show()">新增题目
+    <button class="btn btn-primary" (click)="createSurveyQuestion(); staticModal.show()">新增题目
     </button>
 </div>
 <br/>
@@ -22,9 +21,9 @@
         <tr *ngFor="let question of surveyQuestions">
             <td>{{question.seq}}</td>
             <td>{{question.title}}</td>
-            <td>{{question.options.length}}</td>
+            <td>{{getOptions(question).length}}</td>
             <td>
-                <span class="badge badge-info" (click)="onEdit(staticModal,question)">编辑</span>
+                <span class="badge badge-info" (click)="editSurveyQuestion(question)">编辑</span>
                 <span class="badge badge-danger">删除</span>
             </td>
         </tr>
@@ -34,7 +33,7 @@
 
 <pagination [totalItems]="pageData.totalCount" [(ngModel)]="pageData.pageNO" [maxSize]="9" class="justify-content-start"
             previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
-            (pageChanged)="pageChanged($event)"
+            (pageChanged)="changePage($event)"
             [boundaryLinks]="true" [rotate]="true" (numPages)="pageData.pageNO = $event"></pagination>
 
 
@@ -51,12 +50,6 @@
             </div>
             <div class="modal-body">
                 <form #orderForm="ngForm">
-                    <input type="hidden" class="form-control form-control-sm" name="id"
-                           [(ngModel)]="selectedSurveyQuestion.id"
-                           placeholder="">
-                    <input type="hidden" class="form-control form-control-sm" name="survey_id"
-                           [(ngModel)]="selectedSurveyQuestion.survey_id"
-                           placeholder="">
                     <div class="container">
                         <div class="row">
                             <div class="form-group col-md-12">
@@ -64,9 +57,6 @@
                                 <textarea rows="3" class="form-control form-control-sm" name="title" required
                                           [(ngModel)]="selectedSurveyQuestion.title" #title="ngModel"
                                           placeholder=""></textarea>
-                                <div [hidden]="title.valid || title.pristine" class="form-control-sm" style="color:red">
-                                    标题必填
-                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -84,7 +74,7 @@
                                     <div class="card-header">题目选项</div>
 
                                     <ul class="list-group list-group-flush">
-                                        <li *ngFor="let option of selectedSurveyQuestion.options; let i = index; let last = last;"
+                                        <li *ngFor="let option of getOptions(selectedSurveyQuestion); let i = index; let last = last;"
                                             class="list-group-item" style="padding: 0.15rem 1.25rem;">
                                             <div class="row">
                                                 <div class="form-group col-md-8">
@@ -95,23 +85,19 @@
 
                                                 <div class="form-group col-md-2">
                                                     <label class="col-form-label col-form-label-sm">选项分值:</label>
-                                                    <input max="10000" min="1" class="form-control form-control-sm"
-                                                           #title{{i}}="ngModel"
-                                                           name="{{i}}score"
-                                                           [(ngModel)]="option.score"
-                                                           placeholder="">
+
                                                 </div>
                                                 <div class="form-group col-md-2">
                                                     <div class="row align-items-end" style="height:100%">
                                                         <div class="col-6" style="padding: 0px;">
-                                                            <button *ngIf="selectedSurveyQuestion.options.length > 1"
-                                                                    (click)="onDeleteOption(i)"
+                                                            <button *ngIf="getOptions(selectedSurveyQuestion).length > 1"
+                                                                    (click)="deleteOption(i)"
                                                                     class="btn btn-danger btn-sm">删除
                                                             </button>
                                                         </div>
                                                         <div class="col-6" style="padding: 0px;">
                                                             <button *ngIf="last" class="btn btn-info btn-sm"
-                                                                    (click)="onAddOption()">新增
+                                                                    (click)="addOption()">新增
                                                             </button>
                                                         </div>
                                                     </div>
@@ -124,7 +110,7 @@
                         </div>
 
 
-                        <button type="submit" class="btn btn-primary" (click)="onSubmit(staticModal)"
+                        <button class="btn btn-primary" (click)="saveSurveyQuestion(staticModal)"
                                 [disabled]="!orderForm.form.valid">提交
                         </button>
                     </div>

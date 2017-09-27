@@ -7,8 +7,7 @@ import {SurveyClass} from '../../../model/SurveyClass';
 
 @Component({
     selector: 'app-surveylist',
-    templateUrl: './survey-list.component.html',
-    providers: [SurveyService]
+    templateUrl: './survey-list.component.html'
 })
 
 export class SurveyListComponent implements OnInit {

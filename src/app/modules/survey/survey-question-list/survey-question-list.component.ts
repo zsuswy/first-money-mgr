@@ -14,25 +14,17 @@ import {ListSearchVo} from '../../../model/common/ListSearchVo';
  */
 @Component({
     selector: 'app-survey-question-list',
-    templateUrl: './survey-question-list.component.html',
-    providers: [SurveyService]
+    templateUrl: './survey-question-list.component.html'
 })
 
 export class SurveyQuestionListComponent implements OnInit {
-    // 是否显示模式对话框
-    hidModal: boolean;
     surveyId: string;
+
     // 查询结果
     surveyQuestions: Array<SurveyQuestion>;
 
-    // 查询条件
-    searchCondition: Survey;
-
     // 当前编辑的问卷
     selectedSurveyQuestion: SurveyQuestion;
-
-    // 对话框标题
-    modalTitle: string;
 
     // 编辑／新增标记位
     editModel: string;
@@ -42,14 +34,18 @@ export class SurveyQuestionListComponent implements OnInit {
     // 构造函数
     constructor(private route: ActivatedRoute, private surveyService: SurveyService,
                 private slimLoadingBarService: SlimLoadingBarService) {
-        this.searchCondition = new Survey();
-        this.hidModal = true;
         this.pageData = new Page();
-        this.onNew();
+        this.selectedSurveyQuestion = new SurveyQuestion();
+    }
+
+    public getOptions(surveyQuestion: SurveyQuestion) {
+        if (surveyQuestion.questionContent == null) {
+            return [];
+        }
+        return JSON.parse(surveyQuestion.questionContent);
     }
 
     ngOnInit(): void {
-        this.slimLoadingBarService.start();
         this.route.paramMap
             .subscribe(params => {
                 this.surveyId = params.get('surveyId');
@@ -62,58 +58,46 @@ export class SurveyQuestionListComponent implements OnInit {
 
         const listSearchVo = new ListSearchVo();
         listSearchVo.page = this.pageData;
-        listSearchVo.params = {'survey_id': this.surveyId};
+        listSearchVo.params = {'surveyId': this.surveyId};
 
         this.surveyService.getSurveyQuestionList(listSearchVo).subscribe(response => {
             this.surveyQuestions = response.data.list;
             this.pageData = response.data.page;
             this.slimLoadingBarService.complete();
-            // console.log(JSON.stringify(this.newOrder));
         });
     }
 
-    onNew(): void {
-        this.modalTitle = '新增题目';
-        this.editModel = 'new';
-
+    createSurveyQuestion() {
         this.selectedSurveyQuestion = new SurveyQuestion();
         this.selectedSurveyQuestion.surveyId = this.surveyId;
         let options = new Array<SurveyQuestionOption>();
         let defaultOption = new SurveyQuestionOption();
         options.push(defaultOption);
-        this.selectedSurveyQuestion.options = options;
+        this.selectedSurveyQuestion.questionContent = JSON.stringify(options);
     }
 
-    onDeleteOption(idx): void {
-        this.selectedSurveyQuestion.options.splice(idx, 1);
+    deleteOption(idx) {
+        // this.selectedSurveyQuestion.options.splice(idx, 1);
     }
 
-    onAddOption(): void {
+    addOption() {
         let defaultOption = new SurveyQuestionOption();
-        this.selectedSurveyQuestion.options.push(defaultOption);
+        // this.selectedSurveyQuestion.options.push(defaultOption);
     }
 
-    onEdit(staticModal, surveyQuestion): void {
-        staticModal.show();
-        this.modalTitle = '编辑题目';
-        this.editModel = 'edit';
+    editSurveyQuestion(surveyQuestion) {
         this.selectedSurveyQuestion = surveyQuestion;
     }
 
-    pageChanged(evt): void {
+    changePage(evt) {
         this.pageData.pageNO = evt.page;
         this.search();
     }
 
-
-    onSubmit(staticModal): void {
-        this.selectedSurveyQuestion.questionContent = JSON.stringify(this.selectedSurveyQuestion.options);
-        console.log(JSON.stringify(this.selectedSurveyQuestion.options));
-
+    saveSurveyQuestion(): void {
         if (this.editModel === 'new') {
             this.surveyService.createSurveyQuestion(this.selectedSurveyQuestion).subscribe(response => {
                 if (response.success) {
-                    staticModal.hide();
                     this.search();
                 } else {
                     alert('fail.....');
@@ -122,7 +106,6 @@ export class SurveyQuestionListComponent implements OnInit {
         } else if (this.editModel === 'edit') {
             this.surveyService.updateSurveyQuestion(this.selectedSurveyQuestion).subscribe(response => {
                 if (response.success) {
-                    staticModal.hide();
                     this.search();
                 } else {
                     alert('fail.....');
