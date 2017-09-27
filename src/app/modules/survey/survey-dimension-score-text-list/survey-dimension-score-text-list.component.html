@@ -1,0 +1,103 @@
+<button class="btn btn-primary" (click)="addSurveyDimensionScoreText(); dimensionScoreTextModal.show();">新增</button>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>分值上限</th>
+                <th>分值下限</th>
+                <th>标题</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let dimensionScoreText of surveyDimensionScoreTextList; let i = index; let last = last">
+                <td>{{dimensionScoreText.scoreMax}}</td>
+                <td>{{dimensionScoreText.scoreMin}}</td>
+                <td>{{dimensionScoreText.resultTitle}}</td>
+                <td>
+                    <button class="btn btn-link"
+                            (click)="selectDimensionScoreTextForEdit(dimensionScoreText.id); dimensionScoreTextModal.show();">
+                        <i class="fa fa-edit"></i>编辑
+                    </button>
+                    <button class="btn btn-link" (click)="removeSurveyDimensionScoreText(dimensionScoreText.id)">
+                        <i class="fa fa-remove"></i>删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--  新增编辑对话框  -->
+<div class="modal fade" bsModal #dimensionScoreTextModal="bs-modal" [config]="{backdrop: 'true'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close"
+                        (click)="dimensionScoreTextModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #orderForm="ngForm">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label col-form-label-sm">标题: (可选,默认为维度名称)</label>
+                                        <input class="form-control form-control-sm" name="resultTitle"
+                                               [(ngModel)]="selectedSurveyDimensionScoreText.resultTitle"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label col-form-label-sm">分值上限:</label>
+                                        <input class="form-control form-control-sm" name="scoreMax" required
+                                               [(ngModel)]="selectedSurveyDimensionScoreText.scoreMax"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label col-form-label-sm">分值下限:</label>
+                                        <input class="form-control form-control-sm" name="scoreMin"
+                                               [(ngModel)]="selectedSurveyDimensionScoreText.scoreMin"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label col-form-label-sm">预览:</label>
+                                        <div class="container" [innerHTML]="getHtml()"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label col-form-label-sm">得分描述:</label>
+                                        <div [froalaEditor]="{imageUploadURL: 'http://quiz.ronmob.com/qz/file/upload',language:'zh_cn'}"
+                                             [(ngModel)]="selectedSurveyDimensionScoreText.resultComment"
+                                             name="resultTemplate"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button class="btn btn-primary"
+                                    (click)="saveSurveyDimensionScoreText();dimensionScoreTextModal.hide();"
+                                    [disabled]="!orderForm.form.valid">提交
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

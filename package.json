@@ -25,13 +25,16 @@
     "@angular/platform-browser-dynamic": "4.4.2",
     "@angular/router": "4.4.2",
     "@angular/upgrade": "4.4.2",
+    "angular-froala-wysiwyg": "^2.7.0",
     "chart.js": "2.7.0",
     "core-js": "2.5.1",
     "font-awesome": "^4.7.0",
     "moment": "2.18.1",
     "ng2-charts": "1.6.0",
+    "ng2-file-upload": "^1.2.1",
     "ng2-slim-loading-bar": "^4.0.0",
     "ngx-bootstrap": "1.9.3",
+    "ngx-dynamic-template": "^2.1.24",
     "rxjs": "5.4.3",
     "simple-line-icons": "^2.4.1",
     "ts-helpers": "1.1.2",
@@ -54,7 +57,7 @@
     "protractor": "5.1.2",
     "ts-node": "3.3.0",
     "tslint": "5.7.0",
-    "typescript": "2.3.4"
+    "typescript": "2.2.0"
   },
   "engines": {
     "node": ">= 6.9.0",

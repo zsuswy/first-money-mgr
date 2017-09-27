@@ -52,7 +52,7 @@ export class SurveyQuestionListComponent implements OnInit {
         this.slimLoadingBarService.start();
         this.route.paramMap
             .subscribe(params => {
-                this.surveyId = params.get('survey_id');
+                this.surveyId = params.get('surveyId');
                 this.search();
             });
     }
@@ -112,7 +112,7 @@ export class SurveyQuestionListComponent implements OnInit {
 
         if (this.editModel === 'new') {
             this.surveyService.createSurveyQuestion(this.selectedSurveyQuestion).subscribe(response => {
-                if (response.result = 'success') {
+                if (response.success) {
                     staticModal.hide();
                     this.search();
                 } else {
@@ -121,7 +121,7 @@ export class SurveyQuestionListComponent implements OnInit {
             });
         } else if (this.editModel === 'edit') {
             this.surveyService.updateSurveyQuestion(this.selectedSurveyQuestion).subscribe(response => {
-                if (response.result = 'success') {
+                if (response.success) {
                     staticModal.hide();
                     this.search();
                 } else {

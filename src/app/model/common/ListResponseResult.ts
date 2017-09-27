@@ -6,7 +6,7 @@ import {ListResultData} from './ListResultData';
  */
 
 export class ListResponseResult {
-    result: string;
+    success: boolean;
     message: string;
     data: ListResultData
 }

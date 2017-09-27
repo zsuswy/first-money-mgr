@@ -22,7 +22,7 @@
 
     <button type="submit" class="btn btn-primary" (click)="search();">查询
     </button>&nbsp;
-    <button type="submit" class="btn btn-primary" (click)="onNew(); staticModal.show()">新增调查
+    <button type="submit" class="btn btn-primary" routerLink="/survey/create">新增调查
     </button>
 
 </div>
@@ -47,15 +47,15 @@
             <td>{{survey.questionCnt}}</td>
             <td>{{survey.estimateMinutes}}</td>
             <td>
-                <a (click)="onEdit(staticModal,survey)">
+                <button class="btn btn-link" routerLink="/survey/{{survey.id}}/edit">
                     <i class="fa fa-edit"></i>基础信息
-                </a>&nbsp;
-                <a routerLink="/survey/{{survey.id}}/questions">
-                    <i class="fa fa-list-ol"></i>编辑题目
-                </a>&nbsp;
-                <a routerLink="/survey/{{survey.id}}/answers">
-                    <i class="fa fa-cogs"></i>其它配置
-                </a>
+                </button>&nbsp;
+                <button class="btn btn-link" routerLink="/survey/{{survey.id}}/dimension/list">
+                    <i class="fa fa-cubes"></i>维度设置
+                </button>&nbsp;
+                <button class="btn btn-link" routerLink="/survey/{{survey.id}}/questions">
+                    <i class="fa fa-list-ol"></i>题目管理
+                </button>&nbsp;
             </td>
         </tr>
         </tbody>
@@ -65,91 +65,4 @@
                 previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"
                 (pageChanged)="pageChanged($event)"
                 [boundaryLinks]="true" [rotate]="true" (numPages)="pageData.pageNO = $event"></pagination>
-</div>
-
-<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'true'}"
-     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form #orderForm="ngForm">
-                    <input type="hidden" class="form-control form-control-sm" name="id"
-                           [(ngModel)]="selectedSurvey.id"
-                           placeholder="">
-
-                    <div class="container">
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="col-form-label col-form-label-sm">标题:</label>
-
-                                <input type="email" class="form-control form-control-sm" name="title"
-                                       [(ngModel)]="selectedSurvey.title" required maxlength="10"
-                                       placeholder="" #title="ngModel">
-                                <div [hidden]="title.valid || title.pristine" class="form-control-sm" style="color:red">
-                                    标题必填
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label class="col-form-label col-form-label-sm">题目数量:</label>
-                                <input type="email" class="form-control form-control-sm" name="question_cnt"
-                                       [(ngModel)]="selectedSurvey.question_cnt"
-                                       placeholder="">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="col-form-label col-form-label-sm">预计完成时长(分钟):</label>
-                                <input type="text" class="form-control form-control-sm" name="order_number"
-                                       [(ngModel)]="selectedSurvey.estimate_minutes" placeholder="">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label class="col-form-label col-form-label-sm">问卷价格(元):</label>
-                                <input type="email" class="form-control form-control-sm" name="price"
-                                       [(ngModel)]="selectedSurvey.price"
-                                       placeholder="">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label class="col-form-label col-form-label-sm">问卷类别:</label>
-                                <select [(ngModel)]="selectedSurvey.class_id" name="class_id"
-                                        class="form-control form-control-sm">
-                                    <option value="">--无--</option>
-                                    <option *ngFor="let syClass of surveyClasses" value="{{syClass.id}}">
-                                        {{syClass.class_name}}
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="col-form-label col-form-label-sm">是否启用:</label>
-                                <select [(ngModel)]="selectedSurvey.status" name="status"
-                                        class="form-control form-control-sm">
-                                    <option value="1">启用</option>
-                                    <option value="0">禁用</option>
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-form-label col-form-label-sm">问卷详细描述／介绍:</label>
-                            <textarea rows="7" class="form-control form-control-sm" name="description"
-                                      [(ngModel)]="selectedSurvey.description"
-                                      placeholder="">
-                            </textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" (click)="onSubmit(staticModal)"
-                                [disabled]="!orderForm.form.valid">提交
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>

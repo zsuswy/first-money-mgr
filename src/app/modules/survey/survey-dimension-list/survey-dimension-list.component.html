@@ -1,0 +1,116 @@
+<button class="btn btn-primary" (click)="addSurveyDimension(); dimensionModal.show();">新增</button>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>seq</th>
+                <th>维度名称</th>
+                <th>父维度</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let dimension of surveyDimensionList; let i = index; let last = last">
+                <td>{{dimension.seq}}</td>
+                <td>{{dimension.dimensionName}}</td>
+                <td>
+                    <select class="form-control form-control-sm" disabled [(ngModel)]="dimension.parentId"
+                            name="{{i}}_parentId">
+                        <option *ngFor="let pDimension of getFirstLevelDimension();let j= index "
+                                id="{{i}}_{{j}}_option"
+                                value="{{pDimension.id}}">
+                            {{pDimension.dimensionName}}
+                        </option>
+                    </select>
+                </td>
+                <td>
+                    <button class="btn btn-link"
+                            (click)="selectDimensionForEdit(dimension.id); dimensionModal.show();">
+                        <i class="fa fa-edit"></i>编辑
+                    </button>
+                    <button class="btn btn-link"
+                            routerLink="/survey/{{surveyId}}/dimension/{{dimension.id}}/scoreText/list">
+                        <i class="fa fa-edit"></i>设置得分卡
+                    </button>
+                    <button class="btn btn-link" (click)="removeSurveyDimension(dimension.id)">
+                        <i class="fa fa-remove"></i>删除
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--  新增编辑对话框  -->
+<div class="modal fade" bsModal #dimensionModal="bs-modal" [config]="{backdrop: 'true'}"
+     tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="dimensionModal.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form #orderForm="ngForm">
+                    <input type="hidden" class="form-control form-control-sm" name="id"
+                           [(ngModel)]="selectedSurveyDimension.id"
+                           placeholder="">
+                    <input type="hidden" class="form-control form-control-sm" name="surveyId"
+                           [(ngModel)]="selectedSurveyDimension.surveyId"
+                           placeholder="">
+                    <div class="container">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label col-form-label-sm">维度名称:</label>
+                                <textarea rows="3" class="form-control form-control-sm" name="title" required
+                                          [(ngModel)]="selectedSurveyDimension.dimensionName" #title="ngModel"
+                                          placeholder=""></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label col-form-label-sm">维度序号:</label>
+                                <input class="form-control form-control-sm" name="seq"
+                                       [(ngModel)]="selectedSurveyDimension.seq" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label col-form-label-sm">父亲维度:</label>
+                                <select class="form-control form-control-sm" name="m_parentId"
+                                        [(ngModel)]="selectedSurveyDimension.parentId" placeholder="">
+                                    <option *ngFor="let dim of getFirstLevelDimension(selectedSurveyDimension.id)"
+                                            value="{{dim.id}}">
+                                        {{dim.dimensionName}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label col-form-label-sm">计算方式:</label>
+                                <input class="form-control form-control-sm" name="autoCalculateType"
+                                       [(ngModel)]="selectedSurveyDimension.autoCalculateType" placeholder="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label class="col-form-label col-form-label-sm">代理子维度:</label>
+                                <input class="form-control form-control-sm" name="proxySubDimensionId"
+                                       [(ngModel)]="selectedSurveyDimension.proxySubDimensionId" placeholder="">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary"
+                                (click)="submitSurveyDimension(dimensionModal);dimensionModal.hide();"
+                                [disabled]="!orderForm.form.valid">提交
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

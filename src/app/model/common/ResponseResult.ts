@@ -4,7 +4,7 @@ import {Component} from '@angular/core';
  */
 
 export class ResponseResult {
-    result: string;
+    success: boolean;
     message: string;
     data: any
 }

@@ -20,23 +20,13 @@ export class SurveyListComponent implements OnInit {
     surveyClasses: Array<SurveyClass>;
 
     // 查询条件
-    searchCondition: Survey;
-
-    // 当前编辑的问卷
-    selectedSurvey: Survey;
-
-    // 对话框标题
-    modalTitle: string;
-
-    // 编辑／新增标记位
-    editModel: string;
+    searchCondition: any;
 
     pageData: Page;
 
     constructor(public surveyService: SurveyService,
                 private slimLoadingBarService: SlimLoadingBarService) {
         this.searchCondition = {};
-        this.selectedSurvey = new Survey();
         this.hidModal = true;
         this.pageData = new Page();
     }
@@ -44,7 +34,7 @@ export class SurveyListComponent implements OnInit {
     ngOnInit(): void {
         // this.orders = this.orderService.getOrders();
         this.search();
-        this.surveyService.getSurveyClasses(1).subscribe(response => {
+        this.surveyService.getSurveyClassList(1).subscribe(response => {
             this.surveyClasses = response.data.list as SurveyClass[];
         });
     }
@@ -68,39 +58,5 @@ export class SurveyListComponent implements OnInit {
     pageChanged(evt): void {
         this.pageData.pageNO = evt.page;
         this.search();
-    }
-
-    onNew(): void {
-        this.modalTitle = '新增问卷';
-        this.editModel = 'new';
-    }
-
-    onEdit(staticModal, sSurvey): void {
-        staticModal.show();
-        this.modalTitle = '编辑问卷';
-        this.editModel = 'edit';
-        this.selectedSurvey = sSurvey;
-    }
-
-    onSubmit(staticModal): void {
-        if (this.editModel === 'new') {
-            this.surveyService.createSurvey(this.selectedSurvey).subscribe(response => {
-                if (response.result = 'success') {
-                    staticModal.hide();
-                    this.search();
-                } else {
-                    alert('fail.....');
-                }
-            });
-        } else if (this.editModel === 'edit') {
-            this.surveyService.updateSurvey(this.selectedSurvey).subscribe(response => {
-                if (response.result = 'success') {
-                    staticModal.hide();
-                    this.search();
-                } else {
-                    alert('fail.....');
-                }
-            });
-        }
     }
 }
