@@ -9,7 +9,7 @@ import {DomSanitizer} from '@angular/platform-browser';
     templateUrl: './survey-basic-info.component.html',
     styleUrls: ['./survey-basic-info.component.scss']
 })
-export class SurveyInfoComponent implements OnInit {
+export class SurveyBasicInfoComponent implements OnInit {
     // 当前编辑的问卷
     currSurvey: Survey;
 

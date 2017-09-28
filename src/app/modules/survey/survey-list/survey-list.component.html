@@ -43,7 +43,7 @@
         <tr *ngFor="let survey of surveys">
             <td>{{survey.id}}</td>
             <td>{{survey.title}}</td>
-            <td>{{survey.description == null? "" : survey.description.substr(0,10)}}...</td>
+            <td>{{survey.shortDescription == null? "" : survey.shortDescription.substr(0,10)}}...</td>
             <td>{{survey.questionCnt}}</td>
             <td>{{survey.estimateMinutes}}</td>
             <td>

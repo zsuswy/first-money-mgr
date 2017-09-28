@@ -6,7 +6,7 @@ import {
 
 import {SurveyListComponent} from './survey-list/survey-list.component';
 import {SurveyQuestionListComponent} from './survey-question-list/survey-question-list.component';
-import {SurveyInfoComponent} from './survey-basic-info/survey-basic-info.component';
+import {SurveyBasicInfoComponent} from './survey-basic-info/survey-basic-info.component';
 import {SurveyDimensionListComponent} from './survey-dimension-list/survey-dimension-list.component';
 import {SurveyDimensionScoreTextListComponent} from './survey-dimension-score-text-list/survey-dimension-score-text-list.component';
 
@@ -70,14 +70,14 @@ const routes: Routes = [{
         },
         {
             path: 'create',
-            component: SurveyInfoComponent,
+            component: SurveyBasicInfoComponent,
             data: {
                 title: '创建测评'
             }
         },
         {
             path: ':surveyId/edit',
-            component: SurveyInfoComponent,
+            component: SurveyBasicInfoComponent,
             data: {
                 title: '编辑测评'
             }

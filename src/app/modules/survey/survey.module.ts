@@ -3,7 +3,7 @@ import {SurveyRoutingModule} from './survey-routing.module';
 import {SurveyListComponent} from './survey-list/survey-list.component';
 import {SurveyQuestionListComponent} from './survey-question-list/survey-question-list.component';
 import {SurveyService} from './survey.service';
-import {SurveyInfoComponent} from './survey-basic-info/survey-basic-info.component'
+import {SurveyBasicInfoComponent} from './survey-basic-info/survey-basic-info.component'
 import {ModalModule, PaginationModule} from 'ngx-bootstrap';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
@@ -33,7 +33,7 @@ import {SurveyDimensionScoreTextListComponent} from './survey-dimension-score-te
     declarations: [
         SurveyListComponent,
         SurveyQuestionListComponent,
-        SurveyInfoComponent,
+        SurveyBasicInfoComponent,
         ImgUploadComponent,
         SurveyDimensionListComponent,
         SurveyDimensionScoreTextListComponent

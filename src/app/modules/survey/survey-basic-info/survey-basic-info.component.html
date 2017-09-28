@@ -23,6 +23,15 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="form-group col-12">
+                                <label class="col-form-label col-form-label-sm">简短描述(不超过100字):</label>
+                                <input class="form-control form-control-sm" name="shortDescription"
+                                       [(ngModel)]="currSurvey.shortDescription" required maxlength="120">
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">现价(元):</label>
