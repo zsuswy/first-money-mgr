@@ -58,14 +58,6 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-12">
-                                        <label class="col-form-label col-form-label-sm">分值上限:</label>
-                                        <input class="form-control form-control-sm" name="scoreMax" required
-                                               [(ngModel)]="selectedSurveyDimensionScoreText.scoreMax"
-                                               placeholder="">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-12">
                                         <label class="col-form-label col-form-label-sm">分值下限:</label>
                                         <input class="form-control form-control-sm" name="scoreMin"
                                                [(ngModel)]="selectedSurveyDimensionScoreText.scoreMin"
@@ -74,7 +66,15 @@
                                 </div>
                                 <div class="row">
                                     <div class="form-group col-md-12">
-                                        <label class="col-form-label col-form-label-sm">预览:</label>
+                                        <label class="col-form-label col-form-label-sm">分值上限:</label>
+                                        <input class="form-control form-control-sm" name="scoreMax" required
+                                               [(ngModel)]="selectedSurveyDimensionScoreText.scoreMax"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-form-label col-form-label-sm">得分描述(预览):</label>
                                         <div class="container" [innerHTML]="getHtml()"></div>
                                     </div>
                                 </div>

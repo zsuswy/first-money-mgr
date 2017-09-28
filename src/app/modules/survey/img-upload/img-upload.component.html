@@ -1,2 +1,2 @@
 <input type="file" class="form-control-file" ng2FileSelect [uploader]="uploader"/>
-<img *ngIf="fileAdded" [src]="imgSrc" style="width: 200px;height:200px">
+<img *ngIf="fileAdded || img" [src]="imgSrc || img || loadingImag" style="width: 200px;height:200px">

@@ -183,6 +183,16 @@ export class SurveyQuestionListComponent implements OnInit {
         this.selectedSurveyQuestionOptionList.splice(idx, 1);
     }
 
+    deleteQuestion(id) {
+        if (confirm('是否删除题目？')) {
+            this.surveyService.deleteSurveyQuestion(id).subscribe(resp => {
+                if (resp.success) {
+                    this.search();
+                }
+            });
+        }
+    }
+
     /**
      * 添加新的Option
      * */

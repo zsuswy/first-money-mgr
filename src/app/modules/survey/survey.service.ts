@@ -51,6 +51,10 @@ export class SurveyService {
         return this.http.post<ResponseResult>(this.SERVICE_HOST_PREFIX + '/surveyQuestion/update', surveyQuestion);
     }
 
+    deleteSurveyQuestion(id: number): Observable<ResponseResult> {
+        return this.http.get<ResponseResult>(this.SERVICE_HOST_PREFIX + '/surveyQuestion/delete?id=' + id);
+    }
+
     getSurveyClassList(enabled: number): Observable<ResponseResult> {
         return this.http.get<ResponseResult>(this.SERVICE_HOST_PREFIX + '/surveyClass/list?enabled=' + enabled);
     }

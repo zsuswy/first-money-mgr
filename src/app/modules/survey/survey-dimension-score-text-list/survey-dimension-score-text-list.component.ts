@@ -11,6 +11,7 @@ import {DomSanitizer} from '@angular/platform-browser';
     styleUrls: ['./survey-dimension-score-text-list.component.scss']
 })
 export class SurveyDimensionScoreTextListComponent implements OnInit {
+    modalTitle: string;
 
     surveyId: number;
 
@@ -41,9 +42,11 @@ export class SurveyDimensionScoreTextListComponent implements OnInit {
     }
 
     addSurveyDimensionScoreText() {
-        this.selectedSurveyDimensionScoreText = new SurveyDimensionScoreText()
-
-        this.selectedSurveyDimensionScoreText.dimensionId = this.dimensionId;
+        this.modalTitle = '新增得分卡';
+        let newScoreText = new SurveyDimensionScoreText();
+        newScoreText.dimensionId = this.dimensionId;
+        newScoreText.resultComment = '';
+        this.selectedSurveyDimensionScoreText = newScoreText;
     }
 
     // 删除得分卡
@@ -58,6 +61,8 @@ export class SurveyDimensionScoreTextListComponent implements OnInit {
 
     // 选中编辑
     selectDimensionScoreTextForEdit(id) {
+        this.modalTitle = '编辑得分卡';
+
         this.selectedSurveyDimensionScoreText = this.surveyDimensionScoreTextList.find(dimensionScoreText => dimensionScoreText.id == id);
     }
 

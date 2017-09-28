@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 
 @Component({
@@ -9,6 +9,9 @@ import {FileUploader} from 'ng2-file-upload';
 export class ImgUploadComponent implements OnInit {
     uploader: FileUploader;
 
+    @Input()
+    img: string;
+
     @Output()
     onFileUpload = new EventEmitter<string>();
 
@@ -16,7 +19,8 @@ export class ImgUploadComponent implements OnInit {
 
     fileAdded = false;
 
-    imgSrc = 'assets/img/loading.gif';
+    loadingImag = 'assets/img/loading.gif';
+    imgSrc: string;
 
     constructor() {
         this.uploader = new FileUploader({

@@ -16,7 +16,7 @@
                                 <label class="col-form-label col-form-label-sm">标题:</label>
 
                                 <input class="form-control form-control-sm" name="title"
-                                       [(ngModel)]="currSurvey.title" required maxlength="10"
+                                       [(ngModel)]="currSurvey.title" required maxlength="20"
                                        placeholder="" #title="ngModel">
                                 <div [hidden]="title.valid || title.pristine" class="form-control-sm" style="color:red">
                                     标题必填
@@ -24,17 +24,27 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-6">
+                            <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">现价(元):</label>
                                 <input class="form-control form-control-sm" name="price"
                                        [(ngModel)]="currSurvey.price"
                                        placeholder="">
                             </div>
-                            <div class="form-group col-6">
+                            <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">原价(元):</label>
                                 <input class="form-control form-control-sm" name="price"
                                        [(ngModel)]="currSurvey.orgPrice"
                                        placeholder="">
+                            </div>
+                            <div class="form-group col-4">
+                                <label class="col-form-label col-form-label-sm">问卷分类:</label>
+                                <select [(ngModel)]="currSurvey.classId" name="classId"
+                                        class="form-control form-control-sm">
+                                    <option value="">--无--</option>
+                                    <option *ngFor="let syClass of surveyClasses" value="{{syClass.id}}">
+                                        {{syClass.className}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="row">
@@ -59,13 +69,12 @@
 
                         <div class="row">
                             <div class="form-group col-4">
-                                <label class="col-form-label col-form-label-sm">问卷类别:</label>
-                                <select [(ngModel)]="currSurvey.classId" name="classId"
+                                <label class="col-form-label col-form-label-sm">问卷类型:</label>
+                                <select name="typeId"
                                         class="form-control form-control-sm">
-                                    <option value="">--无--</option>
-                                    <option *ngFor="let syClass of surveyClasses" value="{{syClass.id}}">
-                                        {{syClass.className}}
-                                    </option>
+                                    <option value=""></option>
+                                    <option value="1">题目🈯️选项设置跳转，无跳转后结束测试</option>
+                                    <option value="2">根据序号递增，自动跳转</option>
                                 </select>
                             </div>
                             <div class="form-group col-4">
@@ -116,7 +125,8 @@
                         <div class="row">
                             <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">图片(用于显示在列表):</label>
-                                <app-img-upload (onFileUpload)="fileUploaded($event)"></app-img-upload>
+                                <app-img-upload (onFileUpload)="fileUploaded($event)"
+                                                [img]="currSurvey.image"></app-img-upload>
                             </div>
                         </div>
                         <div class="form-group">
@@ -134,7 +144,7 @@
                             <label class="col-form-label col-form-label-sm">预览：</label>
                             <div class="container" [innerHTML]="getHtml()"></div>
                         </div>
-                        <button type="submit" class="btn btn-primary" (click)="submitForm()"
+                        <button type="submit" class="btn btn-primary" (click)="saveSurvey()"
                                 [disabled]="!orderForm.form.valid">提交
                         </button>
                     </div>
