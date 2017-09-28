@@ -6,6 +6,7 @@ import {SurveyQuestionOptionScore} from './SurveyQuestionOptionScore';
 export class SurveyQuestionOption {
     constructor(public seq?: number,
                 public option?: string,
-                public scoreContent?: string) {
+                public jumpTo?: number,
+                public optionScoreList?: Array<SurveyQuestionOptionScore>) {
     }
 }

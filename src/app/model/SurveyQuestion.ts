@@ -7,6 +7,7 @@ export class SurveyQuestion {
     constructor(public id?: number,
                 public surveyId?: string,
                 public seq?: number,
+                public sex?: number,
                 public title?: string,
                 public type?: string,
                 public questionContent?: string) {

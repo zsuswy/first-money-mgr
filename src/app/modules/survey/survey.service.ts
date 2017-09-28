@@ -14,7 +14,7 @@ import {SurveyDimensionScoreText} from '../../model/SurveyDimensionScoreText';
 
 @Injectable()
 export class SurveyService {
-    SERVICE_HOST_PREFIX = 'http://localhost:9999'; // 'http://quiz.ronmob.com/qz';;
+    SERVICE_HOST_PREFIX = 'http://quiz.ronmob.com/qz'; // 'http://localhost:9999';
 
     constructor(private http: HttpClient) {
     };

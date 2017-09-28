@@ -1,9 +1,9 @@
 <div class="form-inline">
     <label class="sr-only" for="inlineFormInput">Name</label>
-    <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="标题">
+    <input class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" [(ngModel)]="search_title" placeholder="标题">
     <button class="btn btn-primary" (click)="search();">查询
     </button>&nbsp;
-    <button class="btn btn-primary" (click)="createSurveyQuestion(); staticModal.show()">新增题目
+    <button class="btn btn-primary" (click)="createSurveyQuestion(); questionModal.show()">新增题目
     </button>
 </div>
 <br/>
@@ -13,18 +13,20 @@
         <tr>
             <th>序号</th>
             <th>标题</th>
-            <th>选项数量</th>
             <th>操作</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let question of surveyQuestions">
+        <tr *ngFor="let question of surveyQuestionList">
             <td>{{question.seq}}</td>
             <td>{{question.title}}</td>
-            <td>{{getOptions(question).length}}</td>
             <td>
-                <span class="badge badge-info" (click)="editSurveyQuestion(question)">编辑</span>
-                <span class="badge badge-danger">删除</span>
+                <button class="btn btn-link" (click)="editingSurveyQuestion(question); questionModal.show();">
+                    <i class="fa fa-edit"></i> 编辑
+                </button>
+                <button class="btn btn-link">
+                    <i class="fa fa-remove"></i> 删除
+                </button>
             </td>
         </tr>
         </tbody>
@@ -38,13 +40,13 @@
 
 
 <!--  新增编辑对话框  -->
-<div class="modal fade" bsModal #staticModal="bs-modal" [config]="{backdrop: 'true'}"
+<div class="modal fade" bsModal #questionModal="bs-modal" [config]="{backdrop: 'true'}"
      tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title pull-left">{{modalTitle}}</h4>
-                <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
+                <button type="button" class="close pull-right" aria-label="Close" (click)="questionModal.hide()">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -60,46 +62,63 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-6">
                                 <label class="col-form-label col-form-label-sm">题目序号:</label>
                                 <input class="form-control form-control-sm" name="seq"
                                        [(ngModel)]="selectedSurveyQuestion.seq" placeholder="">
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="col-form-label col-form-label-sm">适用性别:</label>
+                                <select class="form-control form-control-sm" name="sex"
+                                        [(ngModel)]="selectedSurveyQuestion.sex">
+                                    <option value="">全部</option>
+                                    <option value="1">男</option>
+                                    <option value="2">女</option>
+                                </select>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="form-group col-md-12">
-
                                 <div class="card" style="width: 100%">
                                     <div class="card-header">题目选项</div>
-
                                     <ul class="list-group list-group-flush">
-                                        <li *ngFor="let option of getOptions(selectedSurveyQuestion); let i = index; let last = last;"
-                                            class="list-group-item" style="padding: 0.15rem 1.25rem;">
+                                        <li *ngFor="let option of selectedSurveyQuestionOptionList; let i = index; let last = last;"
+                                            class="list-group-item" style="padding: 0.75rem 1.25rem;">
                                             <div class="row">
-                                                <div class="form-group col-md-8">
-                                                    <label class="col-form-label col-form-label-sm">选项内容:</label>
-                                                    <input class="form-control form-control-sm" name="{{i}}option"
-                                                           [(ngModel)]="option.option" placeholder="">
+                                                <div class="form-group col-md-12">
+                                                    <label class="col-form-label col-form-label-sm">选项({{i+1}})内容:</label>
+                                                    <textarea class="form-control form-control-sm" rows="2"
+                                                              name="{{i}}option"
+                                                              [(ngModel)]="option.option"></textarea>
                                                 </div>
-
-                                                <div class="form-group col-md-2">
-                                                    <label class="col-form-label col-form-label-sm">选项分值:</label>
-
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-12">
+                                                    <label class="col-form-label col-form-label-sm">跳转到题目:</label>
+                                                    <input class="form-control form-control-sm" name="{{i}}jumpTo"
+                                                           [(ngModel)]="option.jumpTo" placeholder="输入要跳转到的题目序号">
                                                 </div>
-                                                <div class="form-group col-md-2">
-                                                    <div class="row align-items-end" style="height:100%">
-                                                        <div class="col-6" style="padding: 0px;">
-                                                            <button *ngIf="getOptions(selectedSurveyQuestion).length > 1"
-                                                                    (click)="deleteOption(i)"
-                                                                    class="btn btn-danger btn-sm">删除
-                                                            </button>
-                                                        </div>
-                                                        <div class="col-6" style="padding: 0px;">
-                                                            <button *ngIf="last" class="btn btn-info btn-sm"
-                                                                    (click)="addOption()">新增
-                                                            </button>
-                                                        </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group col-md-3"
+                                                     *ngFor="let optionScore of option.optionScoreList">
+                                                    <label> {{optionScore.dimensionName}}</label>
+                                                    <input [(ngModel)]="optionScore.score"
+                                                           name="{{i}}_{{optionScore.dimensionId}}_option_score"
+                                                           placeholder="输入分值">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="form-group form-group-sm col-md-12">
+                                                    <div class="" style="height:100%;">
+                                                        <button (click)="deleteOption(i)" class="btn btn-danger">
+                                                            <i class="fa fa-remove"></i> 删除
+                                                        </button>
+                                                        <button *ngIf="last" class="btn btn-success"
+                                                                (click)="addOption()">
+                                                            <i class="fa fa-plus"></i> 新增
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -110,7 +129,7 @@
                         </div>
 
 
-                        <button class="btn btn-primary" (click)="saveSurveyQuestion(staticModal)"
+                        <button class="btn btn-primary" (click)="saveSurveyQuestion(); questionModal.hide()"
                                 [disabled]="!orderForm.form.valid">提交
                         </button>
                     </div>
