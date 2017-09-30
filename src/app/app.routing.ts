@@ -1,7 +1,5 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-
-// Import Containers
 import {FullLayout} from './containers/full-layout/full-layout.component';
 import {SimpleLayout} from './containers/simple-layout/simple-layout.component';
 
