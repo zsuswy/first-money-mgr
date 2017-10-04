@@ -79,11 +79,12 @@
                         <div class="row">
                             <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">问卷类型:</label>
-                                <select name="typeId"
+                                <select name="typeId" [(ngModel)]="currSurvey.surveyType"
                                         class="form-control form-control-sm">
                                     <option value=""></option>
-                                    <option value="1">题目🈯️选项设置跳转，无跳转后结束测试</option>
-                                    <option value="2">根据序号递增，自动跳转</option>
+                                    <option value="1">题目🈯️选项的设置跳转</option>
+                                    <option value="2">根据序号跳转</option>
+                                    <option value="3">混合模式</option>
                                 </select>
                             </div>
                             <div class="form-group col-4">
