@@ -45,6 +45,7 @@ export class SurveyDimensionScoreTextListComponent implements OnInit {
         this.modalTitle = '新增得分卡';
         let newScoreText = new SurveyDimensionScoreText();
         newScoreText.dimensionId = this.dimensionId;
+        newScoreText.surveyId = this.surveyId;
         newScoreText.resultComment = '';
         this.selectedSurveyDimensionScoreText = newScoreText;
     }
@@ -62,8 +63,8 @@ export class SurveyDimensionScoreTextListComponent implements OnInit {
     // 选中编辑
     selectDimensionScoreTextForEdit(id) {
         this.modalTitle = '编辑得分卡';
-
         this.selectedSurveyDimensionScoreText = this.surveyDimensionScoreTextList.find(dimensionScoreText => dimensionScoreText.id == id);
+        this.selectedSurveyDimensionScoreText.surveyId = this.surveyId;
     }
 
     //
