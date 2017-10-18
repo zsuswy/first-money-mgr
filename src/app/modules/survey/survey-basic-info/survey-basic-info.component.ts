@@ -13,10 +13,17 @@ export class SurveyBasicInfoComponent implements OnInit {
     // 当前编辑的问卷
     currSurvey: Survey;
 
+    // Survey 高级设置
+    surveyAdvSettings: any;
+
     // 当前的surveyId
     surveyId: number;
 
-    constructor(private domSanitizer: DomSanitizer, private surveyService: SurveyService, private route: ActivatedRoute, private router: Router) {
+    surveyClasses = [];
+
+    constructor(private domSanitizer: DomSanitizer,
+                private surveyService: SurveyService,
+                private route: ActivatedRoute, private router: Router) {
         this.currSurvey = new Survey()
     }
 
@@ -25,8 +32,9 @@ export class SurveyBasicInfoComponent implements OnInit {
             this.surveyId = Number(params.get('surveyId'));
 
             this.surveyService.getSurvey(this.surveyId).subscribe(resp => {
-                console.log(resp);
+
                 this.currSurvey = resp.data;
+                this.surveyAdvSettings = JSON.parse(this.currSurvey.params);
             });
         });
     }
@@ -35,7 +43,13 @@ export class SurveyBasicInfoComponent implements OnInit {
         return this.domSanitizer.bypassSecurityTrustHtml(this.currSurvey.description);
     }
 
+    /**
+     * 保存Survey
+     * */
     saveSurvey() {
+        this.currSurvey.params = JSON.stringify(this.surveyAdvSettings);
+        this.saveSurvey();
+
         if (this.currSurvey.id == null) {
             this.surveyService.createSurvey(this.currSurvey).subscribe(
                 responseResult => {

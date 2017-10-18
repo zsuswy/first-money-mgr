@@ -64,23 +64,19 @@
                            placeholder="">
                     <div class="container">
                         <div class="row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">维度名称:</label>
-                                <textarea rows="3" class="form-control form-control-sm" name="title" required
-                                          [(ngModel)]="selectedSurveyDimension.dimensionName" #title="ngModel"
-                                          placeholder=""></textarea>
+                                <input class="form-control form-control-sm" name="title" required
+                                       [(ngModel)]="selectedSurveyDimension.dimensionName" #title="ngModel"
+                                       placeholder="">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="col-form-label col-form-label-sm">维度序号:</label>
+                            <div class="form-group col-4">
+                                <label class="col-form-label col-form-label-sm">序号:</label>
                                 <input class="form-control form-control-sm" name="seq"
                                        [(ngModel)]="selectedSurveyDimension.seq" placeholder="">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="col-form-label col-form-label-sm">父亲维度:</label>
+                            <div class="form-group col-4">
+                                <label class="col-form-label col-form-label-sm">父维度:</label>
                                 <select class="form-control form-control-sm" name="m_parentId"
                                         [(ngModel)]="selectedSurveyDimension.parentId" placeholder="">
                                     <option *ngFor="let dim of getFirstLevelDimension(selectedSurveyDimension.id)"
@@ -91,21 +87,37 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="col-form-label col-form-label-sm">计算方式:</label>
-                                <input class="form-control form-control-sm" name="autoCalculateType"
-                                       [(ngModel)]="selectedSurveyDimension.autoCalculateType" placeholder="">
+                            <div class="form-group col-6">
+                                <label class="col-form-label col-form-label-sm">得分计算方式:</label>
+                                <select class="form-control form-control-sm" name="m_parentId"
+                                        [(ngModel)]="selectedSurveyDimension.autoCalculateType" placeholder="">
+                                    <option value="">-</option>
+                                    <option value="0">与指定（代理子维度）值相同</option>
+                                    <option value="1">各个子维度之和</option>
+                                    <option value="2">各个子维度的平均值</option>
+                                    <option value="3">各个子维度的最小值</option>
+                                    <option value="4">各个子维度的最大值</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label class="col-form-label col-form-label-sm">代理子维度:</label>
+                                <select class="form-control form-control-sm" name="m_parentId"
+                                        [(ngModel)]="selectedSurveyDimension.proxySubDimensionId" placeholder="">
+                                    <option value="">-</option>
+                                    <option *ngFor="let dim of getSubDimensionList(selectedSurveyDimension.id)"
+                                            value="{{dim.id}}">
+                                        {{dim.dimensionName}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="col-form-label col-form-label-sm">代理子维度:</label>
-                                <input class="form-control form-control-sm" name="proxySubDimensionId"
-                                       [(ngModel)]="selectedSurveyDimension.proxySubDimensionId" placeholder="">
-                            </div>
+                        <div class="form-group">
+                            <label class="col-form-label col-form-label-sm">维度详细描述／介绍:</label>
+                            <div [froalaEditor]="{imageUploadURL: 'http://quiz.ronmob.com/qz/file/upload',language:'zh_cn'}"
+                                 [(ngModel)]="selectedSurveyDimension.description" name="m_description"></div>
                         </div>
                         <button class="btn btn-primary"
-                                (click)="submitSurveyDimension(dimensionModal);dimensionModal.hide();"
+                                (click)="submitSurveyDimension();dimensionModal.hide();"
                                 [disabled]="!orderForm.form.valid">提交
                         </button>
                     </div>

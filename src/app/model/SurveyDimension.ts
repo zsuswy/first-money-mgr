@@ -13,20 +13,10 @@ export class SurveyDimension {
                 public seq?: number,
                 public dimensionName?: string,
                 public autoCalculateType?: number,
-                public proxySubDimensionId?: number) {
-
-    }
-
-    public getSubDimensions() {
-        if (this.subDimensionList == null) {
-            let listSearchVo = new ListSearchVo();
-            listSearchVo.params = {};
-            listSearchVo.params.parentId = this.id;
-            listSearchVo.params.surveyId = this.surveyId;
-
-            this.surveyService.getSurveyDimensionList(listSearchVo).subscribe()
+                public proxySubDimensionId?: number,
+                public description?: string) {
+        if (this.description == null) {
+            this.description = '';
         }
-
-        return this.subDimensionList;
     }
 }

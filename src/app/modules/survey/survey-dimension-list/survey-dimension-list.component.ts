@@ -11,7 +11,7 @@ import {ListSearchVo} from '../../../model/common/ListSearchVo';
     styleUrls: ['./survey-dimension-list.component.scss']
 })
 export class SurveyDimensionListComponent implements OnInit {
-    surveyDimensionList: SurveyDimension[];
+    surveyDimensionList: SurveyDimension[] = [];
 
     surveyDimensionscoreTextList: SurveyDimensionScoreText[];
 
@@ -111,5 +111,9 @@ export class SurveyDimensionListComponent implements OnInit {
         this.selectedSurveyDimension = this.surveyDimensionList.find(dimension => dimension.id == id);
         console.log(this.getFirstLevelDimension());
         this.modalTitle = '编辑维度 ' + this.selectedSurveyDimension.dimensionName;
+    }
+
+    getSubDimensionList(id): SurveyDimension[] {
+        return this.surveyDimensionList.filter(dimension => dimension.parentId == id);
     }
 }
