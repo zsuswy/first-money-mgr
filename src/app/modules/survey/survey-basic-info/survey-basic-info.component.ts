@@ -3,7 +3,7 @@ import {Survey} from '../../../model/Survey';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyService} from '../survey.service';
 import {DomSanitizer} from '@angular/platform-browser';
-import {SurveyAdvanceSettings} from '../../../model/SurveyAdvanceSettings';
+import {SurveyAdvanceSettings} from '../../../model/SurveyExtraSettings';
 
 @Component({
     selector: 'app-survey-info',
