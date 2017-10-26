@@ -79,6 +79,7 @@
                                 <label class="col-form-label col-form-label-sm">父维度:</label>
                                 <select class="form-control form-control-sm" name="m_parentId"
                                         [(ngModel)]="selectedSurveyDimension.parentId" placeholder="">
+                                    <option>-</option>
                                     <option *ngFor="let dim of getFirstLevelDimension(selectedSurveyDimension.id)"
                                             value="{{dim.id}}">
                                         {{dim.dimensionName}}
@@ -110,6 +111,78 @@
                                     </option>
                                 </select>
                             </div>
+                        </div>
+                        <div *ngIf="!(selectedSurveyDimension.parentId>0)">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label class="col-form-label col-form-label-sm">是否显示图表:</label>
+                                    <select name="template_isShowSumChart" class="form-control form-control-sm"
+                                            [(ngModel)]="selectedSurveyDimensionExtra.isShowSumChart">
+                                        <option>-</option>
+                                        <option value="1">显示</option>
+                                        <option value="2">不显示</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label col-form-label-sm">图表类型:</label>
+                                    <select class="form-control form-control-sm" name="template_sumchartType"
+                                            [(ngModel)]="selectedSurveyDimensionExtra.sumchartType">
+                                        <option>自动选择</option>
+                                        <option value="1">饼图</option>
+                                        <option value="2">柱图</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label col-form-label-sm">图表标题（作为图表的标题显示）:</label>
+                                    <input class="form-control form-control-sm" name="template_sumChartTitle"
+                                           [(ngModel)]="selectedSurveyDimensionExtra.sumChartTitle">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label col-form-label-sm">图表注脚（图表的注脚文字）:</label>
+                                    <input class="form-control form-control-sm" name="template_sumChartFootScript"
+                                           [(ngModel)]="selectedSurveyDimensionExtra.sumChartFootScript">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label class="col-form-label col-form-label-sm">是否显示子维度图表:</label>
+                                    <select name="template_isShowSubChart" class="form-control form-control-sm"
+                                            [(ngModel)]="selectedSurveyDimensionExtra.isShowSubChart">
+                                        <option>-</option>
+                                        <option value="1">显示</option>
+                                        <option value="2">不显示</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label col-form-label-sm">子维度图表类型:</label>
+                                    <input class="form-control form-control-sm" name="template_subchartType"
+                                           [(ngModel)]="selectedSurveyDimensionExtra.subchartType">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label col-form-label-sm">子维度图表标题（作为图表的标题显示）:</label>
+                                    <input class="form-control form-control-sm" name="template_subChartTitle"
+                                           [(ngModel)]="selectedSurveyDimensionExtra.subChartTitle">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-12">
+                                    <label class="col-form-label col-form-label-sm">子维度图表注脚（图表的注脚文字）:</label>
+                                    <input class="form-control form-control-sm" name="template_subChartFootScript"
+                                           [(ngModel)]="selectedSurveyDimensionExtra.subChartFootScript">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
                         </div>
                         <div class="form-group">
                             <label class="col-form-label col-form-label-sm">维度详细描述／介绍:</label>

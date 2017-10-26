@@ -3,6 +3,7 @@ import {Survey} from '../../../model/Survey';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SurveyService} from '../survey.service';
 import {DomSanitizer} from '@angular/platform-browser';
+import {SurveyAdvanceSettings} from '../../../model/SurveyAdvanceSettings';
 
 @Component({
     selector: 'app-survey-info',
@@ -11,10 +12,10 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class SurveyBasicInfoComponent implements OnInit {
     // 当前编辑的问卷
-    currSurvey: Survey;
+    currSurvey: Survey = new Survey();
 
     // Survey 高级设置
-    surveyAdvSettings: any;
+    surveyAdvSettings: SurveyAdvanceSettings = new SurveyAdvanceSettings();
 
     // 当前的surveyId
     surveyId: number;
@@ -24,17 +25,23 @@ export class SurveyBasicInfoComponent implements OnInit {
     constructor(private domSanitizer: DomSanitizer,
                 private surveyService: SurveyService,
                 private route: ActivatedRoute, private router: Router) {
-        this.currSurvey = new Survey()
     }
 
     ngOnInit() {
         this.route.paramMap.subscribe(params => {
-            this.surveyId = Number(params.get('surveyId'));
+            // 新增
+            if (!params.has('surveyId')) {
+                return;
+            }
 
+            // 编辑
+            this.surveyId = Number(params.get('surveyId'));
             this.surveyService.getSurvey(this.surveyId).subscribe(resp => {
 
                 this.currSurvey = resp.data;
-                this.surveyAdvSettings = JSON.parse(this.currSurvey.params);
+                if (this.currSurvey.params != null) {
+                    this.surveyAdvSettings = JSON.parse(this.currSurvey.params);
+                }
             });
         });
     }
@@ -48,7 +55,7 @@ export class SurveyBasicInfoComponent implements OnInit {
      * */
     saveSurvey() {
         this.currSurvey.params = JSON.stringify(this.surveyAdvSettings);
-        this.saveSurvey();
+        // this.saveSurvey();
 
         if (this.currSurvey.id == null) {
             this.surveyService.createSurvey(this.currSurvey).subscribe(

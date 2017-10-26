@@ -2,14 +2,14 @@
     <!-- Nav tabs -->
     <tabset>
         <tab>
-            <ng-template tabHeading><i class="icon-list"></i> 基本信息 &nbsp;<span
-                    class="badge badge-success">新增</span></ng-template>
+            <ng-template tabHeading>
+                <i class="icon-envelope"></i> 基本信息 &nbsp;
+                <span class="badge badge-success">{{surveyId>0? '编辑':'新增'}}</span>
+            </ng-template>
             <div class="container">
                 <form #orderForm="ngForm">
                     <input type="hidden" class="form-control form-control-sm" name="id"
-                           [(ngModel)]="currSurvey.id"
-                           placeholder="">
-
+                           [(ngModel)]="currSurvey.id">
                     <div class="container">
                         <div class="row">
                             <div class="form-group col-12">
@@ -17,7 +17,7 @@
 
                                 <input class="form-control form-control-sm" name="title"
                                        [(ngModel)]="currSurvey.title" required maxlength="20"
-                                       placeholder="" #title="ngModel">
+                                       #title="ngModel">
                                 <div [hidden]="title.valid || title.pristine" class="form-control-sm" style="color:red">
                                     标题必填
                                 </div>
@@ -26,7 +26,7 @@
 
                         <div class="row">
                             <div class="form-group col-12">
-                                <label class="col-form-label col-form-label-sm">简短描述(不超过100字):</label>
+                                <label class="col-form-label col-form-label-sm">简短描述（不超过100字，用于在列表视图显示测评的简短介绍）:</label>
                                 <input class="form-control form-control-sm" name="shortDescription"
                                        [(ngModel)]="currSurvey.shortDescription" required maxlength="120">
                             </div>
@@ -34,16 +34,16 @@
 
                         <div class="row">
                             <div class="form-group col-4">
-                                <label class="col-form-label col-form-label-sm">现价(元):</label>
+                                <label class="col-form-label col-form-label-sm">现价（元）:</label>
                                 <input class="form-control form-control-sm" name="price"
                                        [(ngModel)]="currSurvey.price"
-                                       placeholder="">
+                                >
                             </div>
                             <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">原价(元):</label>
                                 <input class="form-control form-control-sm" name="price"
                                        [(ngModel)]="currSurvey.orgPrice"
-                                       placeholder="">
+                                >
                             </div>
                             <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">问卷分类:</label>
@@ -61,18 +61,18 @@
                                 <label class="col-form-label col-form-label-sm">题目数量:</label>
                                 <input class="form-control form-control-sm" name="question_cnt"
                                        [(ngModel)]="currSurvey.questionCnt"
-                                       placeholder="">
+                                >
                             </div>
                             <div class="form-group col-4">
-                                <label class="col-form-label col-form-label-sm">预计完成时长(分钟):</label>
+                                <label class="col-form-label col-form-label-sm">预计完成时长（分钟）:</label>
                                 <input type="text" class="form-control form-control-sm" name="order_number"
-                                       [(ngModel)]="currSurvey.estimateMinutes" placeholder="">
+                                       [(ngModel)]="currSurvey.estimateMinutes">
                             </div>
                             <div class="form-group col-4">
                                 <label class="col-form-label col-form-label-sm">已测试数量:</label>
                                 <input class="form-control form-control-sm" name="testedCnt"
                                        [(ngModel)]="currSurvey.testedCnt"
-                                       placeholder="">
+                                >
                             </div>
                         </div>
 
@@ -143,17 +143,17 @@
                             <label class="col-form-label col-form-label-sm">问卷详细描述／介绍:</label>
                             <!--<textarea rows="7" class="form-control form-control-sm" name="description"-->
                             <!--[(ngModel)]="currSurvey.description"-->
-                            <!--placeholder="">-->.
+                            <!-->-->.
                             <!--</textarea>-->
                             <div [froalaEditor]="{imageUploadURL: 'http://quiz.ronmob.com/qz/file/upload',language:'zh_cn'}"
                                  [(ngModel)]="currSurvey.description" name="description"></div>
                         </div>
                         <!--<div class="form-group">-->
-                            <!--<label class="col-form-label col-form-label-sm">预览：</label>-->
-                            <!--<div class="container" [innerHTML]="getHtml()"></div>-->
+                        <!--<label class="col-form-label col-form-label-sm">预览：</label>-->
+                        <!--<div class="container" [innerHTML]="getHtml()"></div>-->
                         <!--</div>-->
                         <button type="submit" class="btn btn-primary" (click)="saveSurvey()"
-                                [disabled]="!orderForm.form.valid">提交
+                                [disabled]="!orderForm.form.valid">保存
                         </button>
                     </div>
                 </form>
@@ -169,52 +169,34 @@
         -->
         <tab>
             <ng-template tabHeading>
-                <i class="icon-pie-chart"></i> 高级设置
+                <i class="icon-feed"></i> 测评结果模版设置
             </ng-template>
+            <div class="row">
+                <div class="form-group col-12">
+                    <label class="col-form-label col-form-label-sm">测评描述（不超过200字，用于在测评结果页面展示测评描述）:</label>
+                    <textarea class="form-control form-control-sm" name="template_description" rows="3"
+                              [(ngModel)]="surveyAdvSettings.description">
+                    </textarea>
+                </div>
+            </div>
 
             <div class="row">
-                <div class="form-group col-4">
-                    <label class="col-form-label col-form-label-sm">饼图设置</label>
-                    <input class="form-control form-control-sm" name="price"
-                           [(ngModel)]="surveyAdvSettings"
-                           placeholder="">
-                </div>
-                <div class="form-group col-4">
-                    <label class="col-form-label col-form-label-sm"></label>
-                    <input class="form-control form-control-sm" name="price"
-                           [(ngModel)]="currSurvey.orgPrice"
-                           placeholder="">
-                </div>
-                <div class="form-group col-4">
-                    <label class="col-form-label col-form-label-sm">问卷分类:</label>
-                    <select [(ngModel)]="currSurvey.classId" name="classId"
-                            class="form-control form-control-sm">
-                        <option value="">--无--</option>
-                        <option *ngFor="let syClass of surveyClasses" value="{{syClass.id}}">
-                            {{syClass.className}}
-                        </option>
+                <div class="form-group col-12">
+                    <label class="col-form-label col-form-label-sm">选择模版类型：</label>
+                    <select class="form-control form-control-sm" name="template_templateType"
+                            [(ngModel)]="surveyAdvSettings.templateType">
+                        <option>自动判断模版类型</option>
+                        <option value="1">单维度测评</option>
+                        <option value="2">多维度测评，有汇总维度</option>
+                        <option value="3">多维度测评，无汇总维度</option>
+                        <option value="4">多个汇总维度测评</option>
+                        <option value="5">其它特殊测评</option>
                     </select>
                 </div>
             </div>
-            <div class="row">
-                <div class="form-group col-4">
-                    <label class="col-form-label col-form-label-sm">题目数量:</label>
-                    <input class="form-control form-control-sm" name="question_cnt"
-                           [(ngModel)]="currSurvey.questionCnt"
-                           placeholder="">
-                </div>
-                <div class="form-group col-4">
-                    <label class="col-form-label col-form-label-sm">预计完成时长(分钟):</label>
-                    <input type="text" class="form-control form-control-sm" name="order_number"
-                           [(ngModel)]="currSurvey.estimateMinutes" placeholder="">
-                </div>
-                <div class="form-group col-4">
-                    <label class="col-form-label col-form-label-sm">已测试数量:</label>
-                    <input class="form-control form-control-sm" name="testedCnt"
-                           [(ngModel)]="currSurvey.testedCnt"
-                           placeholder="">
-                </div>
-            </div>
+            <button type="submit" class="btn btn-primary" (click)="saveSurvey()"
+                    [disabled]="!orderForm.form.valid">保存
+            </button>
         </tab>
     </tabset>
 </div><!--/.col-->

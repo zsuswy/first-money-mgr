@@ -4,6 +4,7 @@ import {SurveyDimension} from '../../../model/SurveyDimension';
 import {SurveyService} from '../survey.service';
 import {ActivatedRoute} from '@angular/router';
 import {ListSearchVo} from '../../../model/common/ListSearchVo';
+import {SurveyDimensionExtraSettings} from '../../../model/SurveyDimensionExtraSettings';
 
 @Component({
     selector: 'app-survey-dimension-list',
@@ -15,15 +16,14 @@ export class SurveyDimensionListComponent implements OnInit {
 
     surveyDimensionscoreTextList: SurveyDimensionScoreText[];
 
-    selectedSurveyDimension: SurveyDimension;
-
+    selectedSurveyDimension: SurveyDimension = new SurveyDimension();
+    selectedSurveyDimensionExtra: SurveyDimensionExtraSettings = new SurveyDimensionExtraSettings();
     modalTitle: string;
 
     @Input()
     surveyId: number;
 
     constructor(private surveyService: SurveyService, private route: ActivatedRoute) {
-        this.selectedSurveyDimension = new SurveyDimension();
     }
 
     ngOnInit() {
@@ -68,6 +68,7 @@ export class SurveyDimensionListComponent implements OnInit {
         dimension.surveyId = this.surveyId;
 
         this.selectedSurveyDimension = dimension;
+        this.selectedSurveyDimensionExtra = new SurveyDimensionExtraSettings();
 
         this.modalTitle = '新增维度';
     }
@@ -90,15 +91,15 @@ export class SurveyDimensionListComponent implements OnInit {
      * 对话框中，创建 或者 更新 SurveyDimension
      * */
     submitSurveyDimension() {
+        // 序列化
+        this.selectedSurveyDimension.params = JSON.stringify(this.selectedSurveyDimensionExtra);
+
         if (this.selectedSurveyDimension.id != null) {
             this.surveyService.updateSurveyDimension(this.selectedSurveyDimension).subscribe(resp => {
-                console.log(resp);
-                // 刷新列表
                 this.initialSurveyDimensionList();
             });
         } else {
             this.surveyService.createSurveyDimension(this.selectedSurveyDimension).subscribe(resp => {
-                // 刷新列表
                 this.initialSurveyDimensionList();
             });
         }
@@ -109,10 +110,20 @@ export class SurveyDimensionListComponent implements OnInit {
      * */
     selectDimensionForEdit(id) {
         this.selectedSurveyDimension = this.surveyDimensionList.find(dimension => dimension.id == id);
-        console.log(this.getFirstLevelDimension());
+
+        // 序列化
+        if (this.selectedSurveyDimension.params != null) {
+            this.selectedSurveyDimensionExtra = JSON.parse(this.selectedSurveyDimension.params);
+        } else {
+            this.selectedSurveyDimensionExtra = new SurveyDimensionExtraSettings();
+        }
+
         this.modalTitle = '编辑维度 ' + this.selectedSurveyDimension.dimensionName;
     }
 
+    /**
+     * 获取子维度信息
+     * */
     getSubDimensionList(id): SurveyDimension[] {
         return this.surveyDimensionList.filter(dimension => dimension.parentId == id);
     }
