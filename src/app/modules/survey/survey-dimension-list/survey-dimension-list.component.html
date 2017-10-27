@@ -114,7 +114,7 @@
                         </div>
                         <div *ngIf="!(selectedSurveyDimension.parentId>0)">
                             <div class="row">
-                                <div class="form-group col-6">
+                                <div class="form-group col-4">
                                     <label class="col-form-label col-form-label-sm">是否显示图表:</label>
                                     <select name="template_isShowSumChart" class="form-control form-control-sm"
                                             [(ngModel)]="selectedSurveyDimensionExtra.isShowSumChart">
@@ -123,14 +123,19 @@
                                         <option value="2">不显示</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-6">
+                                <div class="form-group col-4">
                                     <label class="col-form-label col-form-label-sm">图表类型:</label>
-                                    <select class="form-control form-control-sm" name="template_sumchartType"
+                                    <select class="form-control form-control-sm" name="template_sumChartType"
                                             [(ngModel)]="selectedSurveyDimensionExtra.sumChartType">
                                         <option>自动选择</option>
                                         <option value="1">饼图</option>
                                         <option value="2">柱图</option>
                                     </select>
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="col-form-label col-form-label-sm">最大分值:</label>
+                                    <input class="form-control form-control-sm" name="template_dimensionMaxValue"
+                                           [(ngModel)]="selectedSurveyDimensionExtra.dimensionMaxValue">
                                 </div>
                             </div>
 
