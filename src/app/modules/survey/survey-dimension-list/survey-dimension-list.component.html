@@ -87,32 +87,32 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-6">
-                                <label class="col-form-label col-form-label-sm">得分计算方式:</label>
-                                <select class="form-control form-control-sm" name="m_parentId"
-                                        [(ngModel)]="selectedSurveyDimension.autoCalculateType" placeholder="">
-                                    <option value="">-</option>
-                                    <option value="0">与指定（代理子维度）值相同</option>
-                                    <option value="1">各个子维度之和</option>
-                                    <option value="2">各个子维度的平均值</option>
-                                    <option value="3">各个子维度的最小值</option>
-                                    <option value="4">各个子维度的最大值</option>
-                                </select>
-                            </div>
-                            <div class="form-group col-6">
-                                <label class="col-form-label col-form-label-sm">代理子维度:</label>
-                                <select class="form-control form-control-sm" name="m_parentId"
-                                        [(ngModel)]="selectedSurveyDimension.proxySubDimensionId" placeholder="">
-                                    <option value="">-</option>
-                                    <option *ngFor="let dim of getSubDimensionList(selectedSurveyDimension.id)"
-                                            value="{{dim.id}}">
-                                        {{dim.dimensionName}}
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
                         <div *ngIf="!(selectedSurveyDimension.parentId>0)">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label class="col-form-label col-form-label-sm">得分计算方式:</label>
+                                    <select class="form-control form-control-sm" name="m_parentId"
+                                            [(ngModel)]="selectedSurveyDimension.autoCalculateType" placeholder="">
+                                        <option value="">-</option>
+                                        <option value="0">与指定（代理子维度）值相同</option>
+                                        <option value="1">各个子维度之和</option>
+                                        <option value="2">各个子维度的平均值</option>
+                                        <option value="3">各个子维度的最小值</option>
+                                        <option value="4">各个子维度的最大值</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="col-form-label col-form-label-sm">代理子维度:</label>
+                                    <select class="form-control form-control-sm" name="m_parentId"
+                                            [(ngModel)]="selectedSurveyDimension.proxySubDimensionId" placeholder="">
+                                        <option value="">-</option>
+                                        <option *ngFor="let dim of getSubDimensionList(selectedSurveyDimension.id)"
+                                                value="{{dim.id}}">
+                                            {{dim.dimensionName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="form-group col-4">
                                     <label class="col-form-label col-form-label-sm">是否显示图表:</label>
@@ -169,18 +169,27 @@
                                     <select class="form-control form-control-sm" name="template_subChartType"
                                             [(ngModel)]="selectedSurveyDimensionExtra.subChartType">
                                         <option>-</option>
-                                        <option value="1">雷达图</option>
-                                        <option value="2">柱图</option>
+                                        <option value="1">柱图</option>
+                                        <option value="2">雷达图</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="form-group col-4">
                                     <label class="col-form-label col-form-label-sm">子维度图表显示维度数量:</label>
                                     <input class="form-control form-control-sm" name="template_multiyDimensionLimitCnt"
                                            [(ngModel)]="selectedSurveyDimensionExtra.subDimensionLimitCnt">
                                 </div>
-
+                                <div class="form-group col-4">
+                                    <label class="col-form-label col-form-label-sm">子维度数量限制方式:</label>
+                                    <select class="form-control form-control-sm" name="template_subDimensionLimitType"
+                                            [(ngModel)]="selectedSurveyDimensionExtra.subDimensionLimitType">
+                                        <option>-</option>
+                                        <option value="1">得分最高</option>
+                                        <option value="2">得分最低</option>
+                                    </select>
+                                </div>
                             </div>
-
                             <div class="row">
                                 <div class="form-group col-12">
                                     <label class="col-form-label col-form-label-sm">子维度图表标题（作为图表的标题显示）:</label>
