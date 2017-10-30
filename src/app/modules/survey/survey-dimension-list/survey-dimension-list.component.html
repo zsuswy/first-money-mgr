@@ -89,7 +89,12 @@
                         </div>
                         <div *ngIf="!(selectedSurveyDimension.parentId>0)">
                             <div class="row">
-                                <div class="form-group col-6">
+                                <div class="form-group col-4">
+                                    <label class="col-form-label col-form-label-sm">维度最大分值:</label>
+                                    <input class="form-control form-control-sm" name="template_dimensionMaxValue"
+                                           [(ngModel)]="selectedSurveyDimensionExtra.dimensionMaxValue">
+                                </div>
+                                <div class="form-group col-4">
                                     <label class="col-form-label col-form-label-sm">得分计算方式:</label>
                                     <select class="form-control form-control-sm" name="m_parentId"
                                             [(ngModel)]="selectedSurveyDimension.autoCalculateType" placeholder="">
@@ -101,7 +106,7 @@
                                         <option value="4">各个子维度的最大值</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-6">
+                                <div class="form-group col-4">
                                     <label class="col-form-label col-form-label-sm">代理子维度:</label>
                                     <select class="form-control form-control-sm" name="m_parentId"
                                             [(ngModel)]="selectedSurveyDimension.proxySubDimensionId" placeholder="">
@@ -115,14 +120,35 @@
                             </div>
                             <div class="row">
                                 <div class="form-group col-4">
-                                    <label class="col-form-label col-form-label-sm">是否显示图表:</label>
+                                    <label class="col-form-label col-form-label-sm">是否显示汇总维度:</label>
+                                    <select name="template_isShowSumChart" class="form-control form-control-sm"
+                                            [(ngModel)]="selectedSurveyDimensionExtra.isShowDimension">
+                                        <option>-</option>
+                                        <option value="1">显示</option>
+                                        <option value="0">不显示</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-4" *ngIf="selectedSurveyDimensionExtra.isShowDimension == 1">
+                                    <label class="col-form-label col-form-label-sm">是否显示汇总维度图表:</label>
                                     <select name="template_isShowSumChart" class="form-control form-control-sm"
                                             [(ngModel)]="selectedSurveyDimensionExtra.isShowSumChart">
                                         <option>-</option>
                                         <option value="1">显示</option>
-                                        <option value="2">不显示</option>
+                                        <option value="0">不显示</option>
                                     </select>
                                 </div>
+                                <div class="form-group col-4" *ngIf="selectedSurveyDimensionExtra.isShowDimension == 1">
+                                    <label class="col-form-label col-form-label-sm">是否显示汇总描述信息:</label>
+                                    <select name="template_isShowSumInfo" class="form-control form-control-sm"
+                                            [(ngModel)]="selectedSurveyDimensionExtra.isShowSumInfo">
+                                        <option>-</option>
+                                        <option value="1">显示</option>
+                                        <option value="0">不显示</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row"
+                                 *ngIf="selectedSurveyDimensionExtra.isShowDimension == 1 && selectedSurveyDimensionExtra.isShowSumChart == 1">
                                 <div class="form-group col-4">
                                     <label class="col-form-label col-form-label-sm">图表类型:</label>
                                     <select class="form-control form-control-sm" name="template_sumChartType"
@@ -132,21 +158,18 @@
                                         <option value="2">柱图</option>
                                     </select>
                                 </div>
-                                <div class="form-group col-4">
-                                    <label class="col-form-label col-form-label-sm">最大分值:</label>
-                                    <input class="form-control form-control-sm" name="template_dimensionMaxValue"
-                                           [(ngModel)]="selectedSurveyDimensionExtra.dimensionMaxValue">
-                                </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row"
+                                 *ngIf="selectedSurveyDimensionExtra.isShowDimension == 1 && selectedSurveyDimensionExtra.isShowSumChart == 1">
                                 <div class="form-group col-12">
-                                    <label class="col-form-label col-form-label-sm">图表标题（作为图表的标题显示）:</label>
+                                    <label class="col-form-label col-form-label-sm">图表标题:</label>
                                     <input class="form-control form-control-sm" name="template_sumChartTitle"
                                            [(ngModel)]="selectedSurveyDimensionExtra.sumChartTitle">
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row"
+                                 *ngIf="selectedSurveyDimensionExtra.isShowDimension == 1 && selectedSurveyDimensionExtra.isShowSumChart == 1">
                                 <div class="form-group col-12">
                                     <label class="col-form-label col-form-label-sm">图表注脚（图表的注脚文字）:</label>
                                     <input class="form-control form-control-sm" name="template_sumChartFootScript"
@@ -161,9 +184,37 @@
                                             [(ngModel)]="selectedSurveyDimensionExtra.isShowSubChart">
                                         <option>-</option>
                                         <option value="1">显示</option>
-                                        <option value="2">不显示</option>
+                                        <option value="0">不显示</option>
                                     </select>
                                 </div>
+                                <div class="form-group col-4">
+                                    <label class="col-form-label col-form-label-sm">是否显示子维度描述信息:</label>
+                                    <select name="template_isShowSubInfo" class="form-control form-control-sm"
+                                            [(ngModel)]="selectedSurveyDimensionExtra.isShowSubInfo">
+                                        <option>-</option>
+                                        <option value="1">显示</option>
+                                        <option value="0">不显示</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="selectedSurveyDimensionExtra.isShowSubInfo == 1">
+                                <div class="form-group col-4">
+                                    <label class="col-form-label col-form-label-sm">子维度（描述信息）显示维度数量:</label>
+                                    <input class="form-control form-control-sm" name="template_subDimensionInfoLimitCnt"
+                                           [(ngModel)]="selectedSurveyDimensionExtra.subDimensionInfoLimitCnt">
+                                </div>
+                                <div class="form-group col-4">
+                                    <label class="col-form-label col-form-label-sm">子维度（描述信息）数量限制方式:</label>
+                                    <select class="form-control form-control-sm"
+                                            name="template_subDimensionInfoLimitType"
+                                            [(ngModel)]="selectedSurveyDimensionExtra.subDimensionInfoLimitType">
+                                        <option>-</option>
+                                        <option value="1">得分最高</option>
+                                        <option value="2">得分最低</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="selectedSurveyDimensionExtra.isShowSubChart == 1">
                                 <div class="form-group col-4">
                                     <label class="col-form-label col-form-label-sm">子维度图表类型:</label>
                                     <select class="form-control form-control-sm" name="template_subChartType"
@@ -173,31 +224,29 @@
                                         <option value="2">雷达图</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="form-group col-4">
-                                    <label class="col-form-label col-form-label-sm">子维度图表显示维度数量:</label>
+                                    <label class="col-form-label col-form-label-sm">子维度（图表）显示维度数量:</label>
                                     <input class="form-control form-control-sm" name="template_multiyDimensionLimitCnt"
-                                           [(ngModel)]="selectedSurveyDimensionExtra.subDimensionLimitCnt">
+                                           [(ngModel)]="selectedSurveyDimensionExtra.subDimensionChartLimitCnt">
                                 </div>
                                 <div class="form-group col-4">
-                                    <label class="col-form-label col-form-label-sm">子维度数量限制方式:</label>
+                                    <label class="col-form-label col-form-label-sm">子维度（图表）数量限制方式:</label>
                                     <select class="form-control form-control-sm" name="template_subDimensionLimitType"
-                                            [(ngModel)]="selectedSurveyDimensionExtra.subDimensionLimitType">
+                                            [(ngModel)]="selectedSurveyDimensionExtra.subDimensionChartLimitType">
                                         <option>-</option>
                                         <option value="1">得分最高</option>
                                         <option value="2">得分最低</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" *ngIf="selectedSurveyDimensionExtra.isShowSubChart == 1">
                                 <div class="form-group col-12">
-                                    <label class="col-form-label col-form-label-sm">子维度图表标题（作为图表的标题显示）:</label>
+                                    <label class="col-form-label col-form-label-sm">子维度图表标题:</label>
                                     <input class="form-control form-control-sm" name="template_subChartTitle"
                                            [(ngModel)]="selectedSurveyDimensionExtra.subChartTitle">
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" *ngIf="selectedSurveyDimensionExtra.isShowSubChart == 1">
                                 <div class="form-group col-12">
                                     <label class="col-form-label col-form-label-sm">子维度图表注脚（图表的注脚文字）:</label>
                                     <input class="form-control form-control-sm" name="template_subChartFootScript"
